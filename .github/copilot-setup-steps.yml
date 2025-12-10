@@ -1,0 +1,44 @@
+# Copilot Setup Steps
+# This file specifies the setup steps for the Copilot coding agent
+# to build, test, and run the project.
+#
+# Reference: https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results
+#
+# The Copilot agent uses these steps to set up the development environment
+# before executing tasks in the repository.
+
+name: Copilot Setup Steps
+
+# Environment setup for Go development
+steps:
+  # Install dependencies and verify Go version
+  - name: Verify Go installation
+    run: go version
+
+  # Download and verify module dependencies
+  - name: Download dependencies
+    run: |
+      go mod download
+      go mod verify
+
+  # Build all packages to ensure dependencies are correct and catch compilation issues
+  - name: Build project
+    run: go build -v ./...
+
+  # Run tests to verify project health
+  - name: Run tests
+    run: go test -v ./...
+
+  # Format check - ensure code is properly formatted
+  - name: Check formatting
+    run: |
+      unformatted=$(gofmt -l .)
+      if [ -n "$unformatted" ]; then
+        echo "Code is not formatted. Run 'gofmt -s -w .'"
+        echo "$unformatted"
+        exit 1
+      fi
+
+  # Run static analysis
+  - name: Run go vet
+    run: go vet ./...

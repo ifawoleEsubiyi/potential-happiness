@@ -1,0 +1,80 @@
+name: Go Integration 
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    services:
+      bitcoind:
+        image: ruimarinho/bitcoin-core:24.0.1
+        command: ["-regtest", "-printtoconsole", "-rpcbind=0.0.0.0", "-rpcallowip=0.0.0.0/0"]
+        ports:
+          - 18443:18443
+        options: >-
+          --health-cmd='bitcoin-cli -regtest -rpcwait --rpcconnect=127.0.0.1 getblockchaininfo'
+          --health-interval=10s
+          --health-timeout=5s
+        env:
+          BITCOIND_RPCUSER: regtest
+          BITCOIND_RPCPASSWORD: regtest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24'
+
+      - name: Wait for bitcoind to be healthy
+        run: |
+          echo "Waiting for bitcoind..."
+          for i in {1..30}; do
+            if docker run --rm --network host ruimarinho/bitcoin-core:24.0.1 bitcoin-cli -regtest -rpcconnect=127.0.0.1 -rpcport=18443 -rpcuser=regtest -rpcpassword=regtest getblockchaininfo >/dev/null 2>&1; then
+              echo "bitcoind ready"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Build binary
+        run: |
+          CGO_ENABLED=1 go build ./cmd/validatord
+
+      - name: Run integration script
+        env:
+          BITCOIND_RPCURL: http://regtest:regtest@127.0.0.1:18443
+        run: |
+          # Execute your integration test script that uses bitcoind regtest,
+          # starts aggregator in docker, starts two validator clients, and asserts finality flows.
+          # Example:
+          ./tests/integration/run_regtest.sh
+            - name: Cache
+  uses: actions/cache@v4.3.0
+  with:
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered multiline string listing the prefix-matched keys, that are used for restoring stale cache if no cache hit occurred for key. Note `cache-hit` returns false in this case.
+    restore-keys: # enable
+    # The chunk size used to split up large files during upload, in bytes
+    upload-chunk-size: # optional
+    # An optional boolean when enabled, allows windows runners to save or restore caches that can be restored or saved respectively on other platforms
+    enableCrossOsArchive: # enable 
+    # Fail the workflow if cache entry is not found
+    fail-on-cache-miss: # optional, default is false
+    # Check if a cache entry exists for the given input(s) (key, restore-keys) without downloading the cache
+    lookup-only: # optional, default is false
+    # Run the post step to save the cache even if another step before fails
+    save-always: # optional, default is false
+          

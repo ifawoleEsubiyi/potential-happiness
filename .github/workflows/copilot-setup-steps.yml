@@ -1,0 +1,53 @@
+name: "Copilot Setup Steps"
+
+# This workflow configures the development environment for GitHub Copilot coding agent.
+# It ensures all dependencies are installed and the project can be built and tested.
+# The job must be named 'copilot-setup-steps' for Copilot to recognize it.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+permissions:
+  contents: read
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24'
+          cache: true
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Verify dependencies
+        run: go mod verify
+
+      - name: Build project
+        run: go build -v .
+
+      - name: Run tests
+        run: go test -v ./...
+
+      - name: Format check
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "The following files need formatting:"
+            gofmt -l .
+            exit 1
+          fi
+
+      - name: Vet check
+        run: go vet ./...
