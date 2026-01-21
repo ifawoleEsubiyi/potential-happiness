@@ -17,6 +17,7 @@ vendor/
 
 # Build output
 /validatord
+/examples/models_example
 
 # IDE
 .vscode/
