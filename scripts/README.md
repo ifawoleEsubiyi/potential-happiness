@@ -86,6 +86,42 @@ Open `scripts/demo.html` in a web browser to see an interactive demonstration of
 
 ---
 
+## Cleanup Script
+
+### clean.sh
+
+A dedicated cleanup script for the scripts directory that removes temporary files, logs, and build artifacts.
+
+#### Purpose
+
+This script cleans:
+- Log files (`*.log`)
+- Temporary files (`*.tmp`, `*.temp`)
+- Editor backup files (`*~`)
+- JavaScript dependencies (`node_modules/`)
+- Package lock files (`package-lock.json`)
+
+#### Usage
+
+From the scripts directory:
+```bash
+./scripts/clean.sh
+```
+
+Or use the Makefile target from the repository root:
+```bash
+make clean-scripts
+```
+
+#### Features
+
+- Safe execution with error checking
+- Informative output showing what's being cleaned
+- Only removes files that exist (no errors for missing files)
+- Can be run multiple times safely
+
+---
+
 ## Diagnostics Scripts
 
 ## fluffy-payout-diagnostics.sh
