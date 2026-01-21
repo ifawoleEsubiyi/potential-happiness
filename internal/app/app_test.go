@@ -65,6 +65,9 @@ func TestNew(t *testing.T) {
 				if app.Watcher == nil {
 					t.Error("New() returned App with nil Watcher")
 				}
+				if app.Models == nil {
+					t.Error("New() returned App with nil Models")
+				}
 				if !app.Farmer.IsEnabled() {
 					t.Error("Farmer should be enabled after New()")
 				}
