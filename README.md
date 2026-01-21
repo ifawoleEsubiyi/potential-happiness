@@ -50,6 +50,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines, including:
 - Commit message conventions
 - Pull request process
 
+## For Students
+
+If you're a student looking to leverage GitHub Education benefits and Copilot in your workflow, check out our comprehensive guide:
+
+- [GitHub Education Benefits & Copilot Workflow](GITHUB_EDUCATION_WORKFLOW.md)
+
+This guide covers project setup, Copilot usage, collaboration best practices, and how to make the most of the GitHub Student Developer Pack.
+
 ## Security
 
 Please see our [Security Policy](SECURITY.md) for:
