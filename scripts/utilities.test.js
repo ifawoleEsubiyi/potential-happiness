@@ -16,10 +16,14 @@ if (typeof document === 'undefined') {
 // Import functions if running in Node.js
 let calculateDaysBetweenDates, highlightImagesWithoutAlt, removeImageHighlighting;
 if (typeof require !== 'undefined') {
-    const utils = require('./utilities.js');
-    calculateDaysBetweenDates = utils.calculateDaysBetweenDates;
-    highlightImagesWithoutAlt = utils.highlightImagesWithoutAlt;
-    removeImageHighlighting = utils.removeImageHighlighting;
+    const { 
+        calculateDaysBetweenDates: calcDays,
+        highlightImagesWithoutAlt: highlightImages,
+        removeImageHighlighting: removeHighlight
+    } = require('./utilities.js');
+    calculateDaysBetweenDates = calcDays;
+    highlightImagesWithoutAlt = highlightImages;
+    removeImageHighlighting = removeHighlight;
 }
 
 /**

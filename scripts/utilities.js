@@ -4,6 +4,9 @@
  * This file contains various utility functions for web and date operations.
  */
 
+// Constants
+const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+
 /**
  * Calculate the number of days between two dates
  * 
@@ -28,8 +31,8 @@ function calculateDaysBetweenDates(begin, end) {
     // Calculate the difference in milliseconds
     const diffInMs = endDate.getTime() - beginDate.getTime();
     
-    // Convert milliseconds to days (1 day = 24 * 60 * 60 * 1000 ms)
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    // Convert milliseconds to days
+    const diffInDays = Math.floor(diffInMs / MILLISECONDS_PER_DAY);
     
     return diffInDays;
 }
