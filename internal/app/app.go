@@ -9,6 +9,7 @@ import (
 	"github.com/dreadwitdastacc-IFA/validatord/internal/bls"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/farming"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/keystore"
+	"github.com/dreadwitdastacc-IFA/validatord/internal/llm"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/milestone"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/models"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/payment"
@@ -31,6 +32,7 @@ type App struct {
 	Webhook    *webhook.Webhook
 	Milestone  *milestone.Maker
 	Models     *models.Models
+	LLM        *llm.Client
 }
 
 // New creates and initializes a new validatord application with all components.
@@ -58,6 +60,7 @@ func New(paystring string) (*App, error) {
 		Webhook:    webhook.New(),
 		Milestone:  milestone.New(),
 		Models:     models.New(),
+		LLM:        llm.New(),
 	}, nil
 }
 
@@ -71,4 +74,7 @@ func (a *App) PrintStatus() {
 	fmt.Printf("Milestones tracked: %d\n", a.Milestone.Count())
 	fmt.Printf("GitHub Models enabled: %v\n", a.Models.HasToken())
 	fmt.Printf("Default model: %s\n", a.Models.GetDefaultModel())
+	fmt.Printf("LLM API endpoint: %s\n", a.LLM.GetAPIEndpoint())
+	fmt.Printf("LLM model: %s\n", a.LLM.GetModel())
+	fmt.Printf("LLM token configured: %v\n", a.LLM.HasToken())
 }
