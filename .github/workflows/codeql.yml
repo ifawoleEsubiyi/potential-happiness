@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   analyze:
     name: Analyze
