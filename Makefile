@@ -38,6 +38,24 @@ vet:
 
 # Clean build artifacts
 clean:
+	@echo "🧹 Cleaning all artifacts..."
+	rm -f $(BINARY_NAME)
+	rm -f coverage.out
+	find . -type f -name "*.test" -delete
+	find . -type f -name "*.out" -delete
+	find . -type f -name "*.tmp" -delete
+	find . -type f -name "*.temp" -delete
+	find . -type f -name "*.log" -delete
+	find . -type f -name "*.prof" -delete
+	find . -type f -name "*.pprof" -delete
+	rm -rf /tmp/fluffy-check
+	@echo "✅ Cleanup complete!"
+
+# Clean scripts directory outputs
+clean-scripts:
+	@echo "🧹 Cleaning scripts directory outputs..."
+	rm -rf /tmp/fluffy-check
+	@echo "✅ Scripts cleanup complete!"
 	@echo "Cleaning Go build artifacts..."
 	rm -f $(BINARY_NAME)
 	rm -f coverage.out
@@ -76,6 +94,19 @@ security:
 # Show help
 help:
 	@echo "Available targets:"
+	@echo "  build        - Build the binary"
+	@echo "  test         - Run all tests"
+	@echo "  test-race    - Run tests with race detector and coverage"
+	@echo "  lint         - Run golangci-lint"
+	@echo "  fmt          - Format code"
+	@echo "  vet          - Run go vet"
+	@echo "  clean        - Clean all artifacts"
+	@echo "  clean-scripts - Clean scripts directory outputs"
+	@echo "  deps         - Download and tidy dependencies"
+	@echo "  verify       - Verify dependencies"
+	@echo "  check        - Run all checks (fmt, vet, lint, test)"
+	@echo "  security     - Run gosec security scan"
+	@echo "  help         - Show this help message"
 	@echo "  build     - Build the binary"
 	@echo "  test      - Run all tests"
 	@echo "  test-race - Run tests with race detector and coverage"

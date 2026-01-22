@@ -1,3 +1,4 @@
+# Utility Scripts
 # Scripts Directory
 
 This directory contains utility scripts and JavaScript utilities for the validatord project.
@@ -123,6 +124,41 @@ make clean-scripts
 ---
 
 ## Diagnostics Scripts
+
+## clean.sh
+
+A dedicated cleanup script that removes all build artifacts, test files, temporary files, and script outputs from the validatord project.
+
+### Purpose
+
+This script cleans:
+- Build artifacts (`validatord` binary, `coverage.out`)
+- Test artifacts (`*.test`, `*.out`)
+- Temporary files (`*.tmp`, `*.temp`, `*.log`)
+- Profiling files (`*.prof`, `*.pprof`)
+- Script outputs (`/tmp/fluffy-check/`)
+
+### Usage
+
+From the repository root:
+
+```bash
+./scripts/clean.sh
+```
+
+Or use the Makefile targets:
+
+```bash
+make clean              # Clean all artifacts
+make clean-scripts      # Clean only scripts directory outputs
+```
+
+### Features
+
+- Automatically detects repository root directory
+- Provides progress messages for each cleanup step
+- Safe to run multiple times (idempotent)
+- Matches `.gitignore` patterns for consistency
 
 ## fluffy-payout-diagnostics.sh
 
