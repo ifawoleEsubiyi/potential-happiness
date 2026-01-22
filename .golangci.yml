@@ -15,7 +15,7 @@ linters:
     - staticcheck   # Static analysis checks
     - typecheck     # Type-checking
     - unused        # Check for unused code
-    - shadow        # Detect variable shadowing (use instead of govet's unsupported option)
+    # - shadow        # Detect variable shadowing (not available in this golangci-lint version)
     - gofmt         # Check formatting
     - goimports     # Check imports
     - misspell      # Check for misspellings
