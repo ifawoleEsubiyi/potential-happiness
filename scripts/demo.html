@@ -229,8 +229,16 @@ removeImageHighlighting();</code></pre>
             const end = document.getElementById('endDate').value;
             const resultDiv = document.getElementById('dateResult');
             
+            // Clear any previous content
+            resultDiv.textContent = '';
+            
             if (!begin || !end) {
-                resultDiv.innerHTML = '<div class="result" style="background-color: #ffebee; border-left-color: #f44336;">Please select both dates</div>';
+                const wrapper = document.createElement('div');
+                wrapper.className = 'result';
+                wrapper.style.backgroundColor = '#ffebee';
+                wrapper.style.borderLeftColor = '#f44336';
+                wrapper.textContent = 'Please select both dates';
+                resultDiv.appendChild(wrapper);
                 return;
             }
             
@@ -239,14 +247,28 @@ removeImageHighlighting();</code></pre>
                 const absDay = Math.abs(days);
                 const direction = days >= 0 ? 'between' : 'difference (end before start)';
                 
-                resultDiv.innerHTML = `
-                    <div class="result">
-                        <strong>Result:</strong> ${absDay} day${absDay !== 1 ? 's' : ''} ${direction}<br>
-                        <small>From ${begin} to ${end}</small>
-                    </div>
-                `;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'result';
+
+                const strongEl = document.createElement('strong');
+                strongEl.textContent = 'Result:';
+                wrapper.appendChild(strongEl);
+
+                wrapper.appendChild(document.createTextNode(' ' + absDay + ' day' + (absDay !== 1 ? 's' : '') + ' ' + direction));
+                wrapper.appendChild(document.createElement('br'));
+
+                const smallEl = document.createElement('small');
+                smallEl.textContent = 'From ' + begin + ' to ' + end;
+                wrapper.appendChild(smallEl);
+
+                resultDiv.appendChild(wrapper);
             } catch (error) {
-                resultDiv.innerHTML = `<div class="result" style="background-color: #ffebee; border-left-color: #f44336;">Error: ${error.message}</div>`;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'result';
+                wrapper.style.backgroundColor = '#ffebee';
+                wrapper.style.borderLeftColor = '#f44336';
+                wrapper.textContent = 'Error: ' + error.message;
+                resultDiv.appendChild(wrapper);
             }
         }
         
@@ -254,18 +276,36 @@ removeImageHighlighting();</code></pre>
             const resultDiv = document.getElementById('imageResult');
             const images = highlightImagesWithoutAlt();
             
-            resultDiv.innerHTML = `
-                <div class="result">
-                    <strong>Found ${images.length} image${images.length !== 1 ? 's' : ''} without alt text</strong><br>
-                    <small>Images have been highlighted with a red border</small>
-                </div>
-            `;
+            // Clear any previous content
+            resultDiv.textContent = '';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'result';
+
+            const strongEl = document.createElement('strong');
+            strongEl.textContent = 'Found ' + images.length + ' image' + (images.length !== 1 ? 's' : '') + ' without alt text';
+            wrapper.appendChild(strongEl);
+
+            wrapper.appendChild(document.createElement('br'));
+
+            const smallEl = document.createElement('small');
+            smallEl.textContent = 'Images have been highlighted with a red border';
+            wrapper.appendChild(smallEl);
+
+            resultDiv.appendChild(wrapper);
         }
         
         function removeHighlight() {
             removeImageHighlighting();
             const resultDiv = document.getElementById('imageResult');
-            resultDiv.innerHTML = '<div class="result">All highlighting removed</div>';
+            
+            // Clear any previous content
+            resultDiv.textContent = '';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'result';
+            wrapper.textContent = 'All highlighting removed';
+            resultDiv.appendChild(wrapper);
         }
     </script>
 </body>
