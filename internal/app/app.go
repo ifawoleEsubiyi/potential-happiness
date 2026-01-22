@@ -11,6 +11,7 @@ import (
 	"github.com/dreadwitdastacc-IFA/validatord/internal/keystore"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/llm"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/milestone"
+	"github.com/dreadwitdastacc-IFA/validatord/internal/models"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/payment"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/watcher"
 	"github.com/dreadwitdastacc-IFA/validatord/internal/webhook"
@@ -30,6 +31,7 @@ type App struct {
 	Watcher    *watcher.Watcher
 	Webhook    *webhook.Webhook
 	Milestone  *milestone.Maker
+	Models     *models.Models
 	LLM        *llm.Client
 }
 
@@ -57,6 +59,7 @@ func New(paystring string) (*App, error) {
 		Watcher:    watcher.New(),
 		Webhook:    webhook.New(),
 		Milestone:  milestone.New(),
+		Models:     models.New(),
 		LLM:        llm.New(),
 	}, nil
 }
@@ -69,6 +72,8 @@ func (a *App) PrintStatus() {
 	fmt.Printf("Payout schedule: %s\n", a.Farmer.GetPayoutSchedule())
 	fmt.Printf("Webhook enabled: %v\n", a.Webhook.IsEnabled())
 	fmt.Printf("Milestones tracked: %d\n", a.Milestone.Count())
+	fmt.Printf("GitHub Models enabled: %v\n", a.Models.HasToken())
+	fmt.Printf("Default model: %s\n", a.Models.GetDefaultModel())
 	fmt.Printf("LLM API endpoint: %s\n", a.LLM.GetAPIEndpoint())
 	fmt.Printf("LLM model: %s\n", a.LLM.GetModel())
 	fmt.Printf("LLM token configured: %v\n", a.LLM.HasToken())
