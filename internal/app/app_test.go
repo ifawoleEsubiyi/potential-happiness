@@ -67,6 +67,7 @@ func TestNew(t *testing.T) {
 				}
 				if app.Models == nil {
 					t.Error("New() returned App with nil Models")
+				}
 				if app.LLM == nil {
 					t.Error("New() returned App with nil LLM")
 				}
