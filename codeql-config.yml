@@ -1,0 +1,20 @@
+name: "CodeQL Config"
+
+# Specify languages to analyze
+# CodeQL supports: 'actions', 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'rust', 'swift'
+queries:
+  - uses: security-and-quality
+
+# Paths to exclude from analysis
+paths-ignore:
+  - '**/*_test.go'
+  - '**/vendor/**'
+  - '**/testdata/**'
+  - 'scripts/**'
+  - 'tests/**'
+
+# Paths to include in analysis
+paths:
+  - 'internal/**'
+  - 'cmd/**'
+  - 'main.go'
